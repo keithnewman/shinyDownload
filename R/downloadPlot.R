@@ -12,21 +12,32 @@ downloadGGPlotButtonUI <- function(id, initialFileName) {
 
   return(
     tagList(
-      textInput(ns("filename"), label = "Filename:", value = initialFileName),
-      selectInput(ns("format"),
-        label = "Select filetype",
-        choices = list(
-          PDF = "pdf",
-          PS = "postscript",
-          PNG = "png",
-          Bitmap = "bmp",
-          JPEG = "jpeg"
+      fluidRow(
+        column(4,
+          textInput(ns("filename"), label = "Filename:", value = initialFileName)
         ),
-        selected = ".pdf",
-        selectize = FALSE,
-        width = "100px"
-      ),
-      downloadButton(ns("download"), "Save picture")
+        column(3,
+          selectInput(ns("format"),
+            label = "Select filetype",
+            choices = list(
+              `.pdf` = "pdf",
+              `.ps` = "postscript",
+              `.png` = "png",
+              `.bmp` = "bmp",
+              `.jpeg` = "jpeg"
+            ),
+            selected = ".pdf",
+            selectize = FALSE,
+            width = "100px"
+          )
+        ),
+        column(3,
+          # TODO: find neater way of filling this space. Don't want this text on
+          # the next line but it's needed to drop the download button down a bit
+          p("Click to download plot:"),
+          downloadButton(ns("download"), "Save plot")
+        )
+      )
     )
   )
 }
