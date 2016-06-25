@@ -6,23 +6,29 @@
 #' @return A set of options for downloading the ggplot, including filename,
 #'         file format and the all-important download button
 #' @export
-downloadGGPlotButtonUI <- function(id, intialFileName) {
+downloadGGPlotButtonUI <- function(id, initialFileName) {
   # create namespace using supplied id
   ns <- NS(id)
 
-  textInput(ns("filename"), label = "Filename:", value = initialFileName)
-  selectInput(ns("format"),
-    label = "Select filetype",
-    choices = list(
-      PDF = "pdf",
-      PS = "postscript",
-      PNG = "png",
-      Bitmap = "bmp",
-      JPEG = "jpeg"
-    ),
-    selected = ".pdf"
+  return(
+    tagList(
+      textInput(ns("filename"), label = "Filename:", value = initialFileName),
+      selectInput(ns("format"),
+        label = "Select filetype",
+        choices = list(
+          PDF = "pdf",
+          PS = "postscript",
+          PNG = "png",
+          Bitmap = "bmp",
+          JPEG = "jpeg"
+        ),
+        selected = ".pdf",
+        selectize = FALSE,
+        width = "100px"
+      ),
+      downloadButton(ns("download"), "Save picture")
+    )
   )
-  downloadButton(ns("download"), "Save picture")
 }
 
 #' Processes and initiates the download of a ggplot object.
@@ -37,7 +43,7 @@ downloadGGPlotButtonUI <- function(id, intialFileName) {
 #'
 #' @export
 downloadGGPlotButton <- function(input, output, session, ggplotObject,
-                                 height, width) {
+                                 height = NULL, width = NULL) {
   # Determine what the file extension should be
   fileExtension <- reactive({
     return(switch(input$format,
@@ -46,25 +52,48 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
     ))
   })
 
-  # pre-construct the list of arguments to be passed to the plotting function
-  arg <- reactive({
-    a <- list(file = paste0(input$filename, fileExtension()))
-    if (!empty(height)) {
-      arg$height <- height
-    }
-    if (!empty(width)) {
-      arg$width <- width
-    }
-    return(a)
+  # Determine the application mime type so file formats are recognised
+  mimeType <- reactive({
+    return(
+      switch(input$format,
+        pdf = "application/pdf",
+        postscript = "application/ps",
+        paste0("image/", input$format) # default for all other formats
+      )
+    )
   })
 
-  return(
-    renderText({
-      # Open connection for plot to be created; make the plot; close the device
-      do.call(input$format, args = arg())
+  output$download <- downloadHandler(
+    filename = function() return(paste0(input$filename, fileExtension())),
+    content = function(file) {
+      # Compile a list of arguments to pass to do.call
+      a <- list()
+      a$`file` = file
+      if (!is.null(height)) {
+        a$height <- height
+      }
+      if (!is.null(width)) {
+        a$width <- width
+      }
+
+      # Make the plot
+      openDevices = Inf
+      do.call(input$format, args = a)
+      #pdf(file)
       print(ggplotObject)
-      dev.off()
-      return("Plot saved!")
-    })
+      while (openDevices > 1) {
+        openDevices = dev.off()
+      }
+    }#,
+    #contentType = mimeType()
   )
+#  return(
+#    renderText({
+#      # Open connection for plot to be created; make the plot; close the device
+#      do.call(input$format, args = arg())
+#      print(ggplotObject)
+#      dev.off()
+#      return("Plot saved!")
+#    })
+#  )
 }
