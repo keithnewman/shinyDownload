@@ -98,13 +98,4 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
     }#,
     #contentType = mimeType()
   )
-#  return(
-#    renderText({
-#      # Open connection for plot to be created; make the plot; close the device
-#      do.call(input$format, args = arg())
-#      print(ggplotObject)
-#      dev.off()
-#      return("Plot saved!")
-#    })
-#  )
 }
