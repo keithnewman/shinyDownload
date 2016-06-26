@@ -26,7 +26,7 @@ downloadGGPlotButtonUI <- function(id, initialFileName) {
               `.bmp` = "bmp",
               `.jpeg` = "jpeg"
             ),
-            selected = ".pdf",
+            selected = "pdf",
             selectize = FALSE,
             width = "100px"
           )
