@@ -2,10 +2,10 @@ Package: raptormodules
 Title: Shiny modules for use in RAPTOR
 Version: 0.1.0
 Authors@R: person("Keith", "Newman", email = "keith.newman@newcastle.ac.uk", role = c("aut", "cre"))
-Description: Modules used in Shiny for the RAPTOR safety software.
+Description: Stores modules used in Shiny for the RAPTOR safety software.
 Depends:
     R (>= 3.3.0)
-License: GPLv3
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 5.0.1

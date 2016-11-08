@@ -1,5 +1,6 @@
-#' Creates the user interface for a download button to download a ggplot
-#'
+#' @title Download Plot Button (UI)
+#' @description Creates the user interface for a download button to download a ggplot
+#' @name downloadGGPlotButtonUI
 #' @param id A unique id name for this Shiny object
 #' @param initialFileName The default name that will be used for the Filename
 #'                        of the downloaded file.
@@ -42,8 +43,9 @@ downloadGGPlotButtonUI <- function(id, initialFileName) {
   )
 }
 
-#' Processes and initiates the download of a ggplot object.
-#'
+#' @title Download Plot Button (server)
+#' @description Processes and initiates the download of a ggplot object.
+#' @name downloadGGPlotButton
 #' @param input Needed for Shiny
 #' @param output Needed for Shiny
 #' @param session Needed for Shiny
