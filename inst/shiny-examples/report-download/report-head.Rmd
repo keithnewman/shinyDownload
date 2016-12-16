@@ -1,0 +1,14 @@
+This is the start
+
+```{r, echo=FALSE}
+J <- length(params)
+```
+
+```{r runall, include=FALSE}
+out <- NULL
+for (i in names(params)) {
+  out <- c(out, knitr::knit_child('report-body.Rmd'))
+}
+```
+
+`r paste(out, collapse = '\n')` 

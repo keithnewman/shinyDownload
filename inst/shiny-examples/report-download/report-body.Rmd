@@ -1,0 +1,7 @@
+## Model `r i`
+
+We have a model $$y = `r sprintf("%.2fx%+.2f", params[[i]]$a, params[[i]]$b)`$$ for `r params[[i]]$n` observations.
+
+```{r, echo=FALSE}
+ggplot(params[[i]]$data, aes(x = x, y = y)) + geom_point() + geom_smooth(method = "lm", formula = "y ~ x")
+```

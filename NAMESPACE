@@ -2,3 +2,5 @@
 
 export(downloadGGPlotButton)
 export(downloadGGPlotButtonUI)
+export(downloadReportButton)
+export(downloadReportButtonUI)

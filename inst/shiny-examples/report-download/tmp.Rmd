@@ -1,0 +1,46 @@
+---
+title: "TestMD"
+author: "Keith Newman"
+output: html_document
+params:
+  n: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Hi There!
+
+```{r}
+# The `params` object is available in the document.
+params$n
+```
+
+A plot of `params$n` random points.
+
+```{r}
+plot(rnorm(params$n), rnorm(params$n))
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+params:
+  n: 10
+---
+
+Here we go again!
+
+```{r}
+# The `params` object is available in the document.
+params$n
+```
+
+A plot of `params$n` random points.
+
+```{r}
+plot(rnorm(params$n), rnorm(params$n))
+```
