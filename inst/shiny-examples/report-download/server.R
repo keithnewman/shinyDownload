@@ -8,7 +8,7 @@ shinyServer(
     createData <- reactive({
       x <- runif(input$numberOfPoints, -10, 50)
       y <- input$intercept + input$coefb * x + rnorm(input$numberOfPoints, 0, 4)
-      return(data.frame(x, y))
+      return(data.frame(x = x, y = y))
     })
 
     createPlot <- reactive({
@@ -24,7 +24,7 @@ shinyServer(
     createReportData <- reactive({
       d <- list()
       for (i in 1:input$repeats) {
-        d[[letters[i]]] <- list(data = createData() + rnorm(20),
+        d[[letters[i]]] <- list(data = createData() + rnorm(input$numberOfPoints * 2),
                        n = input$numberOfPoints,
                        a = input$intercept,
                        b = input$coefb)
@@ -32,6 +32,10 @@ shinyServer(
       return(d)
     })
 
-    output$regressionPlot <-	callModule(downloadReportButton, "regressionReport", reportTemplate = "report-head.Rmd", reportTemplateImport = "report-body.Rmd", reportData = createReportData())
+    output$regressionReport <- callModule(downloadReportButton,
+                                          "regressionReport",
+                                          reportTemplateMaster = "report-head.Rmd",
+                                          reportTemplateImport = "report-body.Rmd",
+                                          reportData = createReportData())
   }
 )
