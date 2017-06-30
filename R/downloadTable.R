@@ -10,7 +10,7 @@
 downloadTableButtonUI <- function(id, initialFileName) {
 	# create namespace using supplied id
 	ns <- NS(id)
-	
+
 	return(
 		tagList(
 			fluidRow(
@@ -23,7 +23,7 @@ downloadTableButtonUI <- function(id, initialFileName) {
 							 						choices = list(
 							 							`CSV` = "csv",
 							 							`CSV for excel` = "excel_csv",
-							 							`Text delim.` = "delim"
+							 							`Text delim.` = "delim",
 							 							`Tab delim.` = "tsv",
 							 							`RDS (for R)` = "rds"
 							 						),
@@ -35,7 +35,7 @@ downloadTableButtonUI <- function(id, initialFileName) {
 				column(3,
 							 # TODO: find neater way of filling this space. Don't want this text on
 							 # the next line but it's needed to drop the download button down a bit
-							 p("Click to download table:"),
+							 p("Download table:"),
 							 downloadButton(ns("download"), "Save Table")
 				)
 			)
@@ -57,46 +57,44 @@ downloadTableButtonUI <- function(id, initialFileName) {
 #'
 #' @importFrom readr write_delim write_csv write_csv write_excel_csv write_tsv
 #' @export
-downloadTableButton <- function(input, output, session, dataFrameObject, fileFormat) {
+downloadTableButton <- function(input, output, session, dataFrameObject) {
 	# Determine what the file extension should be
 	fileExtension <- reactive({
-		return(switch(input$fileFormat,
+		return(switch(input$format,
 									"delim" = , "tsv" = ".txt",
 									"excel_csv" = ".csv",
-									paste0(".", input$fileFormat)))
+									paste0(".", input$format)))
 	})
-	
+
 	# Determine the application mime type so file formats are recognised
-	mimeType <- reactive({
-		return(
-			switch(input$fileFormat,
-						 pdf = "application/pdf",
-						 postscript = "application/ps",
-						 paste0("image/", input$format) # default for all other formats
-			)
-		)
-	})
-	
+	# mimeType <- reactive({
+	# 	return(
+	# 		switch(input$format,
+	# 					 pdf = "application/pdf",
+	# 					 postscript = "application/ps",
+	# 					 paste0("image/", input$format) # default for all other formats
+	# 		)
+	# 	)
+	# })
+
 	output$download <- downloadHandler(
 		filename = function() return(paste0(input$filename, fileExtension())),
 		content = function(file) {
 			# Compile a list of arguments to pass to do.call
 			a <- list()
+			if (input$format == "rds") {
+				a$`object` = dataFrameObject
+			} else {
+				a$`x` = dataFrameObject
+			}
 			a$`file` = file
-			a$`format` = fileFormat
-			
+
 			# Decide how the table will be written
-			func <- switch(input$fileFormat,
+			func <- switch(input$format,
 			               "csv" = "write.csv",
 										 "rds" = "saveRDS",
 										 "write.table")
-			openDevices = Inf
-			do.call(func, args = a)
-			#pdf(file)
-			print(ggplotObject)
-			while (openDevices > 1) {
-				openDevices = dev.off()
-			}
+			do.call(func, a)
 		}#,
 		#contentType = mimeType()
 	)
