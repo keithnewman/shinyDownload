@@ -5,19 +5,18 @@ Authors@R: person("Keith", "Newman", email = "keith.newman@newcastle.ac.uk",
     role = c("aut", "cre"))
 Description: Shiny module designed to allow plots and data frames to be downloaded and reports to be compiled from an RMarkdown template and then downloaded.
 						 The package was originally known as 'raptormodules' when it was first created for use in RAPTOR software.
-Depends:
-    R (>= 3.2.2)
-License: GPL-3
-Depends:
+Depends: R (>= 3.0.1)
+Imports:
     ggplot2,
     rmarkdown,
     knitr,
     readr
+License: GPL-3
 Suggests:
     shiny
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Collate:
     'downloadPlot.R'
     'downloadReport.R'
