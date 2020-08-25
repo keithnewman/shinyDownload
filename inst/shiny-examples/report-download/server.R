@@ -1,6 +1,6 @@
 library(shiny)
 library(ggplot2)
-library(raptormodules)
+library(shinyDownload)
 shinyServer(
   function(input, output) {
     # All operations must happen inside this function

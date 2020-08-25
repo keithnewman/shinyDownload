@@ -1,5 +1,5 @@
 library(shiny)
-library(raptormodules)
+library(shinyDownload)
 shinyUI(
   # fluidPage() means content will automatically get narrower
   # if the browser window gets narrower
