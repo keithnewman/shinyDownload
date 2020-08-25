@@ -4,41 +4,66 @@
 #' @param id A unique id name for this Shiny object
 #' @param initialFileName The default name that will be used for the Filename
 #'                        of the downloaded file.
-#' @return A set of options for downloading the ggplot, including filename,
+#' @param placeholder Placeholder text for the filename input
+#' @param buttonLabel Text to appear on the download link button
+#' @return An inline form for downloading the ggplot, including filename,
 #'         file format and the all-important download button
 #' @export
-downloadGGPlotButtonUI <- function(id, initialFileName) {
+downloadGGPlotButtonUI <- function(id, initialFileName = "",
+                                   placeholder = "Select filename...",
+                                   buttonLabel = "Download plot") {
   # create namespace using supplied id
   ns <- NS(id)
 
-  return(
-    tagList(
-      fluidRow(
-        column(4,
-          textInput(ns("filename"), label = "Filename:", value = initialFileName)
-        ),
-        column(3,
-          selectInput(ns("format"),
-            label = "Select filetype",
-            choices = list(
-              `.pdf` = "pdf",
-              `.ps` = "postscript",
-              `.png` = "png",
-              `.bmp` = "bmp",
-              `.jpeg` = "jpeg"
-            ),
-            selected = "pdf",
-            selectize = FALSE,
-            width = "100px"
-          )
-        ),
-        column(3,
-          # TODO: find neater way of filling this space. Don't want this text on
-          # the next line but it's needed to drop the download button down a bit
-          p("Click to download plot:"),
-          downloadButton(ns("download"), "Save plot")
-        )
+  restoredValue <- restoreInput(id = ns("filename"), default = NULL)
+  if (!is.null(restoredValue) && !is.data.frame(restoredValue)) {
+      warning("Restored value for ", ns("filename"), " has incorrect format.")
+      restoredValue <- NULL
+  }
+  if (!is.null(restoredValue)) {
+      restoredValue <- toJSON(restoredValue, strict_atomic = FALSE)
+  }
+
+  div(class = "form-inline",
+    div(
+      class = "form-group",
+      tags$label(class = "sr-only", `for` = ns("filename"), "Filename"),
+      tags$input(type = "text",
+                 id = ns("filename"),
+                 name = ns("filename"),
+                 class = "form-control",
+                 placeholder = placeholder,
+                 value = initialFileName,
+                 `data-restore` = restoredValue,
+                 `aria-label` = "Filename")
+    ),
+    div(
+      class = "form-group",
+      tags$label(class = "sr-only", `for` = ns("format"), "File format"),
+      tags$select(
+        id = ns("format"),
+        name = ns("format"),
+        class = "form-control",
+        shiny:::selectOptions(list(
+          `.pdf` = "pdf",
+          `.ps (postscript)` = "postscript",
+          `.png` = "png",
+          `.bmp` = "bmp",
+          `.jpeg` = "jpeg"
+        ), "pdf"),
+        `aria-label` = "File format"
       )
+    ),
+    div(
+      class = "form-group",
+      tags$label(class = "sr-only", `for` = ns("download"), "Download plot"),
+      tags$a(id = ns("download"),
+             class = paste("btn btn-default shiny-download-link"),
+             href = "",
+             target = "_blank",
+             download = NA,
+             `aria-label` = "Download plot",
+             icon("download"), buttonLabel)
     )
   )
 }

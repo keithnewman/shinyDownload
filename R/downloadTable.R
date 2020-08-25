@@ -4,41 +4,66 @@
 #' @param id A unique id name for this Shiny object
 #' @param initialFileName The default name that will be used for the Filename
 #'                        of the downloaded file.
+#' @param placeholder Placeholder text for the filename input
+#' @param buttonLabel Text to appear on the download link button
 #' @return A set of options for downloading the table, including filename,
 #'         file format and the all-important download button
 #' @export
-downloadTableButtonUI <- function(id, initialFileName) {
+downloadTableButtonUI <- function(id, initialFileName,
+                                  placeholder = "Select filename...",
+                                  buttonLabel = "Download table") {
 	# create namespace using supplied id
 	ns <- NS(id)
 
-	return(
-		tagList(
-			fluidRow(
-				column(4,
-							 textInput(ns("filename"), label = "Filename:", value = initialFileName)
-				),
-				column(3,
-							 selectInput(ns("format"),
-							 						label = "Select format",
-							 						choices = list(
-							 							`CSV` = "csv",
-							 							`CSV for excel` = "excel_csv",
-							 							`Text delim.` = "delim",
-							 							`Tab delim.` = "tsv",
-							 							`RDS (for R)` = "rds"
-							 						),
-							 						selected = "csv",
-							 						selectize = FALSE,
-							 						width = "100px"
-							 )
-				),
-				column(3,
-							 # TODO: find neater way of filling this space. Don't want this text on
-							 # the next line but it's needed to drop the download button down a bit
-							 p("Download table:"),
-							 downloadButton(ns("download"), "Save Table")
-				)
+	restoredValue <- restoreInput(id = ns("filename"), default = NULL)
+	if (!is.null(restoredValue) && !is.data.frame(restoredValue)) {
+			warning("Restored value for ", ns("filename"), " has incorrect format.")
+			restoredValue <- NULL
+	}
+	if (!is.null(restoredValue)) {
+			restoredValue <- toJSON(restoredValue, strict_atomic = FALSE)
+	}
+
+	div(class = "form-inline",
+		div(
+			class = "form-group",
+			tags$label(class = "sr-only", `for` = ns("filename"), "Filename"),
+			tags$input(type = "text",
+								 id = ns("filename"),
+								 name = ns("filename"),
+								 class = "form-control",
+								 placeholder = placeholder,
+								 value = initialFileName,
+								 `data-restore` = restoredValue,
+								 `aria-label` = "Filename")
+		),
+		div(
+			class = "form-group",
+			tags$label(class = "sr-only", `for` = ns("format"), "File format"),
+			tags$select(
+				id = ns("format"),
+				name = ns("format"),
+				class = "form-control",
+				shiny:::selectOptions(list(
+					`.csv` = "csv",
+					`.csv (for excel)` = "excel_csv",
+					`.txt (space-delimited)` = "delim",
+					`.txt (tab-delimited)` = "tsv",
+					`.rds (for R)` = "rds"
+				), "csv"),
+				`aria-label` = "File format"
 			)
+		),
+		div(
+			class = "form-group",
+			tags$label(class = "sr-only", `for` = ns("download"), "Download table"),
+			tags$a(id = ns("download"),
+						 class = paste("btn btn-default shiny-download-link"),
+						 href = "",
+						 target = "_blank",
+						 download = NA,
+						 `aria-label` = "Download table",
+						 icon("download"), buttonLabel)
 		)
 	)
 }
@@ -65,17 +90,6 @@ downloadTableButton <- function(input, output, session, dataFrameObject) {
 									"excel_csv" = ".csv",
 									paste0(".", input$format)))
 	})
-
-	# Determine the application mime type so file formats are recognised
-	# mimeType <- reactive({
-	# 	return(
-	# 		switch(input$format,
-	# 					 pdf = "application/pdf",
-	# 					 postscript = "application/ps",
-	# 					 paste0("image/", input$format) # default for all other formats
-	# 		)
-	# 	)
-	# })
 
 	output$download <- downloadHandler(
 		filename = function() return(paste0(input$filename, fileExtension())),
