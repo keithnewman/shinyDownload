@@ -1,7 +1,7 @@
 Package: shinyDownload
-Title: Shiny module that allows certain objects to be downloaded in Shiny
+Title: Shiny module that allows tables and plots to be downloaded in Shiny
 Version: 0.3.1
-Authors@R: person("Keith", "Newman", email = "keith.newman@newcastle.ac.uk",
+Authors@R: person("Keith", "Newman", email = "knewma@hotmail.com",
     role = c("aut", "cre"))
 Description: Shiny module designed to allow plots and data frames to be downloaded and reports to be compiled from an RMarkdown template and then downloaded.
 						 The package was originally known as 'raptormodules' when it was first created for use in RAPTOR software.
