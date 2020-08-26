@@ -1,14 +1,28 @@
-This is the start
+## Introduction
 
-```{r, echo=FALSE}
-J <- length(params)
+This is the start of my report.
+
+We start with the same plot that you saw in the demonstration app:
+
+```{r originalPlot, echo=FALSE, results="hide"}
+print(params[["original"]]$plot)
 ```
+
+```{r numberOfAdditionalModels, echo=FALSE}
+J <- length(params) - 1
+```
+
+We have created `r J` additional model(s).
 
 ```{r runall, include=FALSE}
 out <- NULL
-for (i in names(params)) {
-  out <- c(out, knitr::knit_child('report-body.Rmd'))
+for (i in names(params)[-1]) {
+  out <- append(out, knitr::knit_child('report-body.Rmd'))
 }
 ```
 
-`r paste(out, collapse = '\n')` 
+`r paste(out, collapse = '\n')`
+
+## Summary
+
+This is the end of my document. I hope you enjoyed it.

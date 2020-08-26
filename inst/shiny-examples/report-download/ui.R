@@ -17,13 +17,13 @@ shinyUI(
                      "How many data points:",
                      min = 10, value = 30
         ),
-        sliderInput("intercept",
-                    "Pick the intercept, a:",
-                    min = -100, max = 100, value = 0
+        sliderInput("coefa",
+                    "Pick a, the coefficient of x:",
+                    min = -10, max = 10, value = 0, step = 0.1
         ),
-        sliderInput("coefb",
-                    "Pick b, the coefficient of x:",
-                    min = -10, max = 10, value = 0, step = 0.5
+        sliderInput("intercept",
+                    "Pick the intercept, b:",
+                    min = -100, max = 100, value = 0
         ),
         checkboxInput("regLine", "Include regression line", TRUE)
       ),

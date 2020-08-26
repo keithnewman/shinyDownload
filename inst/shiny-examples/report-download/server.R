@@ -1,13 +1,14 @@
 library(shiny)
 library(ggplot2)
 library(shinyDownload)
+library(rmarkdown)
 shinyServer(
   function(input, output) {
     # All operations must happen inside this function
 
     createData <- reactive({
       x <- runif(input$numberOfPoints, -10, 50)
-      y <- input$intercept + input$coefb * x + rnorm(input$numberOfPoints, 0, 4)
+      y <- input$intercept + input$coefa * x + rnorm(input$numberOfPoints, 0, 4)
       return(data.frame(x = x, y = y))
     })
 
@@ -21,21 +22,38 @@ shinyServer(
 
     output$scatterPlot <- renderPlot({createPlot()})
 
-    createReportData <- reactive({
-      d <- list()
-      for (i in 1:input$repeats) {
-        d[[letters[i]]] <- list(data = createData() + rnorm(input$numberOfPoints * 2),
-                       n = input$numberOfPoints,
-                       a = input$intercept,
-                       b = input$coefb)
-      }
-      return(d)
-    })
+    reportData <- function(dataset, replicates) {
+      isolate({
+        original <- list(original = list(data = dataset,
+                                         n = input$numberOfPoints,
+                                         a = input$coefa,
+                                         b = input$intercept,
+                                         plot = createPlot()))
+        d <- lapply(X = seq(length.out = replicates - 1), function(i, n, a, b, d) {
+            return(list(
+              data = d + rnorm(input$numberOfPoints * 2),
+              n = n,
+              a = a,
+              b = b
+            ))
+          },
+          n = input$numberOfPoints,
+          a = input$coefa,
+          b = input$intercept,
+          d = dataset
+        )
+        names(d) <- letters[seq(length.out = replicates - 1)]
+      })
+      cat(str(d))
+      return(append(original, d))
+    }
 
-    output$regressionReport <- callModule(downloadReportButton,
-                                          "regressionReport",
-                                          reportTemplateMaster = "report-head.Rmd",
-                                          reportTemplateImport = "report-body.Rmd",
-                                          reportData = createReportData())
+    output$regressionReport <- callModule(
+      downloadReportButton,
+      "regressionReport",
+      reportTemplateMaster = "report-head.Rmd",
+      reportTemplateImport = "report-body.Rmd",
+      params = reportData(createData(), input$repeats)
+    )
   }
 )
