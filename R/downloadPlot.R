@@ -1,5 +1,6 @@
 #' @title Download Plot Button (UI)
-#' @description Creates the user interface for a download button to download a ggplot
+#' @description Creates the user interface for a download button to download a
+#'              ggplot
 #' @name downloadGGPlotButtonUI
 #' @param id A unique id name for this Shiny object
 #' @param initialFileName The default name that will be used for the Filename

@@ -1,5 +1,6 @@
 #' @title Download Table Button (UI)
-#' @description Creates the user interface for a download button to download a ggplot
+#' @description Creates the user interface for a download button to download a
+#'              data.frame object
 #' @name downloadTableButtonUI
 #' @param id A unique id name for this Shiny object
 #' @param initialFileName The default name that will be used for the Filename
@@ -69,18 +70,15 @@ downloadTableButtonUI <- function(id, initialFileName,
 }
 
 #' @title Download Plot Button (server)
-#' @description Processes and initiates the download of a table, matrix or data frame.
+#' @description Processes and initiates the download of a table, matrix or data
+#'              frame.
 #' @name downloadTableButton
 #' @param input Needed for Shiny
 #' @param output Needed for Shiny
 #' @param session Needed for Shiny
-#' @param dataFrameObject The name of the table, matrix or data frame object that is to be exported
-#' @param fileFormat File type format that dataFrameObject will be exported as.
-#' A "csv" format uses comma (",") to separate values.
-#' A "txt" format will use tab characters ("\\t") to separate the values
+#' @param dataFrameObject The name of the table, matrix or data frame object
+#'        that is to be exported
 #' @return Downloads the table with the inputted filename
-#'
-#' @importFrom readr write_delim write_csv write_csv write_excel_csv write_tsv
 #' @export
 downloadTableButton <- function(input, output, session, dataFrameObject) {
 	# Determine what the file extension should be
