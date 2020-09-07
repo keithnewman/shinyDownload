@@ -1,4 +1,4 @@
-## Model `r i`
+### Model `r i`
 
 ```{r, include=FALSE}
 # For convenience, we'll extract the values from the params list for this

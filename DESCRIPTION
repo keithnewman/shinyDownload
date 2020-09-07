@@ -13,7 +13,8 @@ Imports:
     rmarkdown,
     knitr,
     readr,
-    yaml
+    yaml,
+    zip
 License: GPL-3
 Suggests:
     shiny

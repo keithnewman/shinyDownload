@@ -12,6 +12,8 @@ print(params[["original"]]$plot)
 J <- length(params) - 1
 ```
 
+## Other models
+
 We have created `r J` additional model(s).
 
 ```{r runall, include=FALSE}

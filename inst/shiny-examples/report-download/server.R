@@ -53,7 +53,8 @@ shinyServer(
       "regressionReport",
       reportTemplateMaster = "report-head.Rmd",
       reportTemplateImport = "report-body.Rmd",
-      params = reportData(createData(), input$repeats)
+      params = reportData(createData(), input$repeats),
+      toc = "float"
     )
   }
 )
