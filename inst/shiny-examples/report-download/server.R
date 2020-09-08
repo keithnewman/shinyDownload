@@ -22,6 +22,8 @@ shinyServer(
 
     output$scatterPlot <- renderPlot({createPlot()})
 
+    # Package all the data you want to use in the report into a single list.
+    # You can do this using a function with isolated content, or as a reactive.
     reportData <- function(dataset, replicates) {
       isolate({
         original <- list(original = list(data = dataset,
@@ -29,7 +31,9 @@ shinyServer(
                                          a = input$coefa,
                                          b = input$intercept,
                                          plot = createPlot()))
-        d <- lapply(X = seq(length.out = replicates - 1), function(i, n, a, b, d) {
+        d <- lapply(
+          X = seq(length.out = replicates),
+          function(i, n, a, b, d) {
             return(list(
               data = d + rnorm(input$numberOfPoints * 2),
               n = n,
@@ -42,15 +46,17 @@ shinyServer(
           b = input$intercept,
           d = dataset
         )
-        names(d) <- letters[seq(length.out = replicates - 1)]
+        names(d) <- letters[seq(length.out = replicates)]
       })
       cat(str(d))
       return(append(original, d))
     }
 
+    # The download manager is packaged into a Shiny module called
+    # "downloadReportButton".
     output$regressionReport <- callModule(
-      downloadReportButton,
-      "regressionReport",
+      module = downloadReportButton,
+      id = "regressionReport", # <= This should match the outputId name
       reportTemplateMaster = "report-head.Rmd",
       reportTemplateImport = "report-body.Rmd",
       params = reportData(createData(), input$repeats),

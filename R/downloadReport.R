@@ -213,14 +213,17 @@ downloadReportButton <- function(input, output, session,
 
       # Copy any dependancies to the temporary directory
       if (!is.null(reportTemplateImport)) {
-        # Make subdirectories if necessary
-        importPath <- dirname(reportTemplateImport)
-        fullImportPath <- file.path(tmpDir, importPath)
-        if (importPath != "." && !dir.exists(fullImportPath)) {
-          if (!dir.create(fullImportPath, recursive = TRUE)) {
-            stop("Failed to create temporary directory at [",
-                 fullImportPath,
-                 "] to store report template imports!")
+        # Make subdirectories if necessary. Each will have to be done
+        # individually because dir.create can't accept character vectors.
+        for (importFile in reportTemplateImport) {
+          importPath <- dirname(importFile)
+          fullImportPath <- file.path(tmpDir, importPath)
+          if (importPath != "." && !dir.exists(fullImportPath)) {
+            if (!dir.create(fullImportPath, recursive = TRUE)) {
+              stop("Failed to create temporary directory at [",
+                   fullImportPath,
+                   "] to store report template imports!")
+            }
           }
         }
         ok <- file.copy(reportTemplateImport,

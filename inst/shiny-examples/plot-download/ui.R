@@ -20,18 +20,16 @@ shinyUI(
                     "b (intercept):",
                     min = -100, max = 100, value = 0
         ),
-        checkboxInput("regLine", "Include regression line", TRUE)
+        checkboxInput(inputId = "regLine",
+                      label = "Include regression line",
+                      value = TRUE)
       ),
 
       # mainPanel is the larger plain space on the right
       mainPanel(
         h2("Plot"),
         plotOutput("scatterPlot"),
-        sliderInput("repeats",
-                    "How many additional (identical) models do you want?",
-                    min = 0, max = 10, value = 1
-        ),
-        downloadReportButtonUI("regressionReport", "this-regression-report")
+        downloadGGPlotButtonUI("plotDownload", "this-plot")
       )
     )
   )

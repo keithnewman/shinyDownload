@@ -9,10 +9,13 @@ shinyServer(
 
     output$table <- renderTable({createTable()})
 
+    # The download manager is packaged into a Shiny module called
+    # "downloadTableButton".
     observeEvent(input$dataChoice, {
-      output$tableDownload <- callModule(downloadTableButton,
-                                         "tableDownload",
-                                         dataFrameObject = createTable())
+      output$tableDownload <- callModule(
+        module = downloadTableButton,
+        id = "tableDownload", # <= this should match the outputId name
+        dataFrameObject = createTable())
     })
   }
 )

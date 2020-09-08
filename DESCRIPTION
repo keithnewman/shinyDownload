@@ -1,7 +1,7 @@
 Package: shinyDownload
 Title: Shiny module that allows tables, plots and reports to be downloaded in
        Shiny
-Version: 0.3.2
+Version: 0.3.3
 Authors@R: person("Keith", "Newman", email = "knewma@hotmail.com",
     role = c("aut", "cre"))
 Description: Shiny module designed to allow plots and data frames to be
@@ -9,6 +9,7 @@ Description: Shiny module designed to allow plots and data frames to be
              and then downloaded.
 Depends: R (>= 3.0.1)
 Imports:
+    shiny,
     ggplot2,
     rmarkdown,
     knitr,
@@ -16,12 +17,11 @@ Imports:
     yaml,
     zip
 License: GPL-3
-Suggests:
-    shiny
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Collate:
-    'downloadPlot.R'
+    'downloadGGPlot.R'
     'downloadReport.R'
     'downloadTable.R'
+    'shinyDownloadExample.R'
