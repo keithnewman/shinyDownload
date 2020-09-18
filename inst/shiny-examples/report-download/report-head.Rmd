@@ -2,29 +2,28 @@
 
 This is the start of my report.
 
-We start with the same plot that you saw in the demonstration app:
+All of the models featured have a model equation of
+$$y = `r sprintf("%.2fx%+.2f", params$a, params$intercept)`$$
+and each model has `r params$n` randomly generated observations.
 
-```{r originalPlot, echo=FALSE, results="hide"}
-print(params[["original"]]$plot)
+
+```{r numberOfModels, echo=FALSE}
+J <- length(params$dataset)
 ```
 
-```{r numberOfAdditionalModels, echo=FALSE}
-J <- length(params) - 1
-```
+## Individual models
 
-## Other models
-
-We have created `r J` additional model(s).
+We have created `r J` model`r if (J > 1) {"s"}`.
 
 ```{r runall, include=FALSE}
 out <- NULL
-for (i in names(params)[-1]) {
+for (i in names(params$dataset)) {
   out <- append(out, knitr::knit_child('report-body.Rmd'))
 }
 ```
 
 `r paste(out, collapse = '\n')`
 
-## Summary
+## Concluding remarks
 
 This is the end of my document. I hope you enjoyed it.

@@ -3,22 +3,19 @@
 ```{r, include=FALSE}
 # For convenience, we'll extract the values from the params list for this
 # section of the report.
-d <- params[[i]]
+d <- params$dataset[[i]]
 ```
-
-We have a model $$y = `r sprintf("%.2fx%+.2f", d$a, d$b)`$$
-for `r d$n` observations.
 
 Here are some summary statistics from this dataset:
 
 ```{r, echo=FALSE, results="asis"}
 # Note that we can only use packages that are installed on the host system.
-knitr::kable(summary(d$data))
+knitr::kable(summary(d))
 ```
 
 ```{r, echo=FALSE}
 library(ggplot2)
-ggplot(d$data, aes(x = x, y = y)) +
+ggplot(d, aes(x = x, y = y)) +
   geom_point() +
   geom_smooth(method = "lm", formula = "y ~ x")
 ```
