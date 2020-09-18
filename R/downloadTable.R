@@ -59,13 +59,13 @@ downloadTableButtonUI <- function(id, initialFileName,
 			class = "form-group",
 			shiny::tags$label(class = "sr-only",
                         `for` = ns("download"),
-                        "Download table"),
+                        buttonLabel),
 			shiny::tags$a(id = ns("download"),
 						 class = paste("btn btn-default shiny-download-link"),
 						 href = "",
 						 target = "_blank",
 						 download = NA,
-						 `aria-label` = "Download table",
+						 `aria-label` = buttonLabel,
 						 shiny::icon("download"), buttonLabel)
 		)
 	)
