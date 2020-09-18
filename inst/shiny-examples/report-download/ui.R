@@ -53,7 +53,7 @@ shinyUI(
           )
         ),
         wellPanel(
-          h2("Plot"),
+          h2("Download a report"),
           downloadReportButtonUI("regressionReport", "this-regression-report")
         )
       )
