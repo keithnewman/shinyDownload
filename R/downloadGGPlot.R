@@ -14,22 +14,22 @@ downloadGGPlotButtonUI <- function(id, initialFileName = "",
                                    placeholder = "Select filename...",
                                    buttonLabel = "Download plot") {
   # create namespace using supplied id
-  ns <- NS(id)
+  ns <- shiny::NS(id)
 
-  restoredValue <- restoreInput(id = ns("filename"), default = NULL)
+  restoredValue <- shiny::restoreInput(id = ns("filename"), default = NULL)
   if (!is.null(restoredValue) && !is.data.frame(restoredValue)) {
       warning("Restored value for ", ns("filename"), " has incorrect format.")
       restoredValue <- NULL
   }
   if (!is.null(restoredValue)) {
-      restoredValue <- toJSON(restoredValue, strict_atomic = FALSE)
+      restoredValue <- jsonlite::toJSON(restoredValue, strict_atomic = FALSE)
   }
 
-  div(class = "form-inline",
-    div(
+  shiny::div(class = "form-inline",
+    shiny::div(
       class = "form-group",
-      tags$label(class = "sr-only", `for` = ns("filename"), "Filename"),
-      tags$input(type = "text",
+      shiny::tags$label(class = "sr-only", `for` = ns("filename"), "Filename"),
+      shiny::tags$input(type = "text",
                  id = ns("filename"),
                  name = ns("filename"),
                  class = "form-control",
@@ -38,10 +38,10 @@ downloadGGPlotButtonUI <- function(id, initialFileName = "",
                  `data-restore` = restoredValue,
                  `aria-label` = "Filename")
     ),
-    div(
+    shiny::div(
       class = "form-group",
-      tags$label(class = "sr-only", `for` = ns("format"), "File format"),
-      tags$select(
+      shiny::tags$label(class = "sr-only", `for` = ns("format"), "File format"),
+      shiny::tags$select(
         id = ns("format"),
         name = ns("format"),
         class = "form-control",
@@ -55,16 +55,18 @@ downloadGGPlotButtonUI <- function(id, initialFileName = "",
         `aria-label` = "File format"
       )
     ),
-    div(
+    shiny::div(
       class = "form-group",
-      tags$label(class = "sr-only", `for` = ns("download"), "Download plot"),
-      tags$a(id = ns("download"),
+      shiny::tags$label(class = "sr-only",
+                        `for` = ns("download"),
+                        "Download plot"),
+      shiny::tags$a(id = ns("download"),
              class = paste("btn btn-default shiny-download-link"),
              href = "",
              target = "_blank",
              download = NA,
              `aria-label` = "Download plot",
-             icon("download"), buttonLabel)
+             shiny::icon("download"), buttonLabel)
     )
   )
 }
@@ -84,7 +86,7 @@ downloadGGPlotButtonUI <- function(id, initialFileName = "",
 downloadGGPlotButton <- function(input, output, session, ggplotObject,
                                  height = NULL, width = NULL) {
   # Determine what the file extension should be
-  fileExtension <- reactive({
+  fileExtension <- shiny::reactive({
     return(switch(input$format,
       "postscript" = ".ps",
       paste0(".", input$format) # Default
@@ -92,7 +94,7 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
   })
 
   # Determine the application mime type so file formats are recognised
-  mimeType <- reactive({
+  mimeType <- shiny::reactive({
     return(
       switch(input$format,
         pdf = "application/pdf",
@@ -102,7 +104,7 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
     )
   })
 
-  output$download <- downloadHandler(
+  output$download <- shiny::downloadHandler(
     filename = function() return(paste0(input$filename, fileExtension())),
     content = function(file) {
       # Compile a list of arguments to pass to do.call
@@ -121,7 +123,7 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
       #pdf(file)
       print(ggplotObject)
       while (openDevices > 1) {
-        openDevices = dev.off()
+        openDevices = grDevices::dev.off()
       }
     }#,
     #contentType = mimeType()

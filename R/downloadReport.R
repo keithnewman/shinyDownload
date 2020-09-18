@@ -14,22 +14,22 @@ downloadReportButtonUI <- function(id, initialFileName,
                                    placeholder = "Select filename...",
                                    buttonLabel = "Download report") {
   # create namespace using supplied id
-  ns <- NS(id)
+  ns <- shiny::NS(id)
 
-  restoredValue <- restoreInput(id = ns("filename"), default = NULL)
+  restoredValue <- shiny::restoreInput(id = ns("filename"), default = NULL)
   if (!is.null(restoredValue) && !is.data.frame(restoredValue)) {
       warning("Restored value for ", ns("filename"), " has incorrect format.")
       restoredValue <- NULL
   }
   if (!is.null(restoredValue)) {
-      restoredValue <- toJSON(restoredValue, strict_atomic = FALSE)
+      restoredValue <- jsonlite::toJSON(restoredValue, strict_atomic = FALSE)
   }
 
-  div(class = "form-inline",
-    div(
+  shiny::div(class = "form-inline",
+    shiny::div(
       class = "form-group",
-      tags$label(class = "sr-only", `for` = ns("filename"), "Filename"),
-      tags$input(type = "text",
+      shiny::tags$label(class = "sr-only", `for` = ns("filename"), "Filename"),
+      shiny::tags$input(type = "text",
                  id = ns("filename"),
                  name = ns("filename"),
                  class = "form-control",
@@ -38,10 +38,10 @@ downloadReportButtonUI <- function(id, initialFileName,
                  `data-restore` = restoredValue,
                  `aria-label` = "Filename")
     ),
-    div(
+    shiny::div(
       class = "form-group",
-      tags$label(class = "sr-only", `for` = ns("format"), "File format"),
-      tags$select(
+      shiny::tags$label(class = "sr-only", `for` = ns("format"), "File format"),
+      shiny::tags$select(
         id = ns("format"),
         name = ns("format"),
         class = "form-control",
@@ -57,16 +57,18 @@ downloadReportButtonUI <- function(id, initialFileName,
         `aria-label` = "File format"
       )
     ),
-    div(
+    shiny::div(
       class = "form-group",
-      tags$label(class = "sr-only", `for` = ns("download"), "Download plot"),
-      tags$a(id = ns("download"),
+      shiny::tags$label(class = "sr-only",
+                        `for` = ns("download"),
+                        "Download plot"),
+      shiny::tags$a(id = ns("download"),
              class = paste("btn btn-default shiny-download-link"),
              href = "",
              target = "_blank",
              download = NA,
              `aria-label` = "Download plot",
-             icon("download"), buttonLabel)
+             shiny::icon("download"), buttonLabel)
     )
   )
 }
@@ -77,6 +79,9 @@ downloadReportButtonUI <- function(id, initialFileName,
 #' @param input Needed for Shiny
 #' @param output Needed for Shiny
 #' @param session Needed for Shiny
+#' @param title The title of the document
+#' @param author The document author's name
+#' @param date The date to appear at the start of the document
 #' @param reportTemplateMaster The master rmarkdown template for the report.
 #'        This template should not have a YAML header as this will be added
 #'        by this report generation script.
@@ -121,17 +126,17 @@ downloadReportButton <- function(input, output, session,
                                  toc = TRUE,
                                  ...) {
   # State if this will be a zip download
-  willBeZip <- reactive({
+  willBeZip <- shiny::reactive({
     return(input$format %in% c("tex", "md"))
   })
 
   # Determine what the file extension should be
-  fileExtension <- reactive({
+  fileExtension <- shiny::reactive({
     return(paste0(".", tolower(input$format)))
   })
 
   # If the file will be .tex or .md, the downloaded file will actually be a .zip
-  downloadExtension <- reactive({
+  downloadExtension <- shiny::reactive({
     if (willBeZip()) {
       return(".zip")
     } else {
@@ -140,7 +145,7 @@ downloadReportButton <- function(input, output, session,
   })
 
   # Determine the application mime type so file formats are recognised
-  # mimeType <- reactive({
+  # mimeType <- shiny::reactive({
   #   return(
   #     switch(
   #       input$format,
@@ -153,13 +158,13 @@ downloadReportButton <- function(input, output, session,
   #   )
   # })
 
-  formatName <- reactive ({
+  formatName <- shiny::reactive ({
     return(switch(input$format,
                   docx = "word_document",
                   paste0(tolower(input$format), "_document")))
   })
 
-  output$download <- downloadHandler(
+  output$download <- shiny::downloadHandler(
     filename = function() return(paste0(basename(input$filename),
                                         downloadExtension())),
     content = function(file_) {
@@ -181,7 +186,7 @@ downloadReportButton <- function(input, output, session,
 
       # Determine the type of table of contents to use
       if (!input$format %in% c("docx", "rtf", "odt")) {
-        if (!isTruthy(toc)) {
+        if (!shiny::isTruthy(toc)) {
           tocList <- list(toc = FALSE)
         } else {
           tocList <- list(toc = TRUE)
@@ -252,7 +257,7 @@ downloadReportButton <- function(input, output, session,
           fName <- paste0(basename(input$filename), fileExtension())
           out <- rmarkdown::render(input = tmpReport,
                             output_file = fName,
-                            params = reportData)
+                            params = params)
           zip::zip(
             zipfile = file_,
             files = c(fName,
@@ -269,7 +274,7 @@ downloadReportButton <- function(input, output, session,
         # Render the completed document directly to the target file_ location.
         rmarkdown::render(input = tmpReport,
                           output_file = file_,
-                          params = reportData)
+                          params = params)
       }
     }
   )
