@@ -10,24 +10,22 @@ shinyServer(
       return(data.frame(x = x, y = y))
     })
 
-    # Creating the plot in its own reactive environment allows it to be used
-    # for both output and to be passed to the plot download module.
-    createPlot <- reactive({
+    output$scatterPlot <- renderPlot({
       g <- ggplot(createData(), aes(x = x, y = y)) + geom_point()
       if (input$regLine) {
         g <- g + geom_smooth(method = "lm", formula = "y ~ x")
       }
+
+      # The download manager is packaged into a Shiny module called
+      # "downloadGGPlotButton". You'll need to call this module every time
+      # the target plot is updated, so the module will have the latest plot
+      output$plotDownload <- callModule(
+        module = downloadGGPlotButton,
+        id = "plotDownload", # <= this should match the outputId name
+        ggplotObject = g
+      )
+
       return(g)
     })
-
-    output$scatterPlot <- renderPlot({createPlot()})
-
-    # The download manager is packaged into a Shiny module called
-    # "downloadGGPlotButton".
-    output$plotDownload <- callModule(
-      module = downloadGGPlotButton,
-      id = "plotDownload", # <= this should match the outputId name
-      ggplotObject = createPlot())
-
   }
 )
