@@ -90,6 +90,26 @@ If the plot is hidden on a `tabPanel` that isn't visible, the default reactive
 behaviour is that the plot won't update, and therefore the download module won't
 update either.
 
+## Styling ideas
+
+To group together a plot or table with its corresponding shinyDownload widget,
+consider using a
+[Bootstrap panel component](https://getbootstrap.com/docs/3.3/components/#panels)
+with the download options stored in the panel footer.
+
+![A Bootstrap panel containing a plot in the panel body and the download options in the panel footer.](man/figures/panel-plot.png)
+
+You can construct the panel to your own design in your Shiny UI and provide
+optional panel headings and
+[context classes](https://getbootstrap.com/docs/3.3/components/#panels-alternatives).
+An example of a panel being used to house a shinyDownload widget can be
+opened by running the following in an R session where the shinyDownload library
+has already been loaded:
+
+```r
+shinyDownloadExample("panel")
+```
+
 ## Accessibility
 
 Labels are assigned to their respective inputs,

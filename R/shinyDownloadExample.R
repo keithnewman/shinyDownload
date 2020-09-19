@@ -2,7 +2,8 @@
 #' @description Demonstrate how the package methods work in an example Shiny app
 #' @name shinyDownloadExample
 #' @param example Character string containing the name of one of the example
-#'        Shiny apps. You can choose from "ggplot", "report" or "table".
+#'        Shiny apps. You can choose from "ggplot", "report", "table" or
+#'        "panel".
 #'        The app will open in "showcase" mode, so the app's source code is also
 #'        provided.
 #' @details Thanks to Dean Attali for this method which was obtained from
@@ -18,6 +19,9 @@
 #'
 #' # For downloading data frame objects
 #' shinyDownloadExample("table")
+#'
+#' # Inspiration for how shinyDownload can be combined with a Bootstrap panel
+#' shinyDownloadExample("panel")
 #' }
 shinyDownloadExample <- function(example) {
   # locate all the shiny app examples that exist

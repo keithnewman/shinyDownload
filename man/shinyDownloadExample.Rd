@@ -8,7 +8,8 @@ shinyDownloadExample(example)
 }
 \arguments{
 \item{example}{Character string containing the name of one of the example
-Shiny apps. You can choose from "ggplot", "report" or "table".
+Shiny apps. You can choose from "ggplot", "report", "table" or
+"panel".
 The app will open in "showcase" mode, so the app's source code is also
 provided.}
 }
@@ -29,5 +30,8 @@ shinyDownloadExample("report")
 
 # For downloading data frame objects
 shinyDownloadExample("table")
+
+# Inspiration for how shinyDownload can be combined with a Bootstrap panel
+shinyDownloadExample("panel")
 }
 }
