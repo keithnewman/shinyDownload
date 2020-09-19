@@ -19,11 +19,11 @@ downloadTableButtonUI <- function(id, initialFileName,
 
 	restoredValue <- shiny::restoreInput(id = ns("filename"), default = NULL)
 	if (!is.null(restoredValue) && !is.data.frame(restoredValue)) {
-			warning("Restored value for ", ns("filename"), " has incorrect format.")
-			restoredValue <- NULL
+		warning("Restored value for ", ns("filename"), " has incorrect format.")
+		restoredValue <- NULL
 	}
 	if (!is.null(restoredValue)) {
-			restoredValue <- jsonlite::toJSON(restoredValue, strict_atomic = FALSE)
+		restoredValue <- jsonlite::toJSON(restoredValue, strict_atomic = FALSE)
 	}
 
 	shiny::div(class = "form-inline",
@@ -31,13 +31,13 @@ downloadTableButtonUI <- function(id, initialFileName,
 			class = "form-group",
 			shiny::tags$label(class = "sr-only", `for` = ns("filename"), "Filename"),
 			shiny::tags$input(type = "text",
-								 id = ns("filename"),
-								 name = ns("filename"),
-								 class = "form-control",
-								 placeholder = placeholder,
-								 value = initialFileName,
-								 `data-restore` = restoredValue,
-								 `aria-label` = "Filename")
+								        id = ns("filename"),
+								        name = ns("filename"),
+								        class = "form-control",
+								        placeholder = placeholder,
+								        value = initialFileName,
+								        `data-restore` = restoredValue,
+								        `aria-label` = "Filename")
 		),
 		shiny::div(
 			class = "form-group",
@@ -62,12 +62,12 @@ downloadTableButtonUI <- function(id, initialFileName,
                         `for` = ns("download"),
                         buttonLabel),
 			shiny::tags$a(id = ns("download"),
-						 class = paste("btn btn-default shiny-download-link"),
-						 href = "",
-						 target = "_blank",
-						 download = NA,
-						 `aria-label` = buttonLabel,
-						 shiny::icon("download"), buttonLabel)
+						        class = paste("btn btn-default shiny-download-link"),
+						        href = "",
+						        target = "_blank",
+						        download = NA,
+						        `aria-label` = buttonLabel,
+						        shiny::icon("download"), buttonLabel)
 		)
 	)
 }
