@@ -251,8 +251,8 @@ downloadReportButton <- function(input, output, session,
           wd <- setwd(tmpDir)
           fName <- paste0(basename(input$filename), fileExtension())
           out <- rmarkdown::render(input = tmpReport,
-                            output_file = fName,
-                            params = params)
+                                   output_file = fName,
+                                   params = params)
           zip::zip(
             zipfile = file_,
             files = c(fName,
