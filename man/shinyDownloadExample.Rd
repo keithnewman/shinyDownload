@@ -8,7 +8,7 @@ shinyDownloadExample(example)
 }
 \arguments{
 \item{example}{Character string containing the name of one of the example
-Shiny apps. You can choose from "report-download" or "table-download".
+Shiny apps. You can choose from "ggplot", "report" or "table".
 The app will open in "showcase" mode, so the app's source code is also
 provided.}
 }
@@ -18,4 +18,16 @@ Demonstrate how the package methods work in an example Shiny app
 \details{
 Thanks to Dean Attali for this method which was obtained from
          \url{https://deanattali.com/2015/04/21/r-package-shiny-app/}
+}
+\examples{
+\donttest{
+# For downloading ggplot objects
+shinyDownloadExample("ggplot")
+
+# For downloading compiled rmarkdown documents
+shinyDownloadExample("report")
+
+# For downloading data frame objects
+shinyDownloadExample("table")
+}
 }
