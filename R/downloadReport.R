@@ -5,8 +5,9 @@
 #' @param id A unique id name for this Shiny object
 #' @param initialFileName The default name that will be used for the Filename
 #'                        of the downloaded file.
-#' @param placeholder Placeholder text for the filename input
-#' @param buttonLabel Text to appear on the download link button
+#' @param placeholder Placeholder text for the filename input. This adds the
+#'                    placeholder attribute to the HTML input tag.
+#' @param buttonLabel Text to appear on the download link button.
 #' @return A set of options for downloading the report, including filename,
 #'         file format and the all-important download button
 #' @export
@@ -79,22 +80,29 @@ downloadReportButtonUI <- function(id, initialFileName,
 #' @param input Needed for Shiny
 #' @param output Needed for Shiny
 #' @param session Needed for Shiny
-#' @param title The title of the document
-#' @param author The document author's name
-#' @param date The date to appear at the start of the document
+#' @param title The title of the compiled document.
+#' @param author The document author's name as a character string.
+#' @param date The date to appear at the start of the document. The default
+#'             value is the current date according to the host system. The
+#'             date should be provided as a character string.
 #' @param reportTemplateMaster The master rmarkdown template for the report.
 #'        This template should not have a YAML header as this will be added
 #'        by this report generation script.
 #' @param reportTemplateImport A character vector of additional files that may
 #'        be referred to by reportTemplateMaster. These will be copied into the
-#'        same directory.
+#'        same directory as reportTemplateMaster. Where imports need to be
+#'        stored in subdirectories, specify the relative path rather than an
+#'        absolute path.
 #' @param params A list of data/parameters that may be referred to by
-#'        the report templates.
-#' @param xelatex Specify that the xelatex compiler should be used for PDF
-#'        documents instead of the default (pdflatex) compiler. xelatex will
+#'        the report templates. These values can then be referred to in your
+#'        rmarkdown template by calling values from the "params" list.
+#' @param xelatex Specify that the XeLaTeX compiler should be used for PDF
+#'        documents instead of the default (pdflatex) compiler. XeLaTeX will
 #'        will be useful if you have unicode characters in your report.
 #'        This is a logical value, evaluated according to shiny::isTruthy().
 #'        This is ignored if the format from the UI selection is not ".pdf".
+#'        The host system needs to have access to XeLaTeX or you'll encounter
+#'        an error when the file compiles.
 #' @param toc Logical to determine whether a table of contents is included at
 #'        the start of the document. If the target file format is HTML, this
 #'        value can also be written as "float" to get a floating table of
@@ -109,6 +117,7 @@ downloadReportButtonUI <- function(id, initialFileName,
 #'         .tex or .md output, the files will be provided as a .zip folder
 #'         because these are intended to be compiled later by the user, who will
 #'         need their plots which are attached as separate files.
+#'         Note that .md formats are exported without a YAML header included.
 #'         For all other formats, the downloaded file is in the intended format
 #'         with all plots already embedded into the document.
 #'         By default, HTML documents compile as a standalone document, meaning
@@ -143,20 +152,6 @@ downloadReportButton <- function(input, output, session,
       return(fileExtension())
     }
   })
-
-  # Determine the application mime type so file formats are recognised
-  # mimeType <- shiny::reactive({
-  #   return(
-  #     switch(
-  #       input$format,
-  #       docx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  #       html = "text/html",
-  #       tex = "application/x-latex",
-  #       odt = "application/vnd.oasis.opendocument.text",
-  #       paste0("application/", input$format) # default for all other formats
-  #     )
-  #   )
-  # })
 
   formatName <- shiny::reactive ({
     return(switch(input$format,

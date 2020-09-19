@@ -5,7 +5,8 @@
 #' @param id A unique id name for this Shiny object
 #' @param initialFileName The default name that will be used for the Filename
 #'                        of the downloaded file.
-#' @param placeholder Placeholder text for the filename input
+#' @param placeholder Placeholder text for the filename input. This adds the
+#'                    placeholder attribute to the HTML input tag.
 #' @param buttonLabel Text to appear on the download link button
 #' @return A set of options for downloading the table, including filename,
 #'         file format and the all-important download button
@@ -75,11 +76,11 @@ downloadTableButtonUI <- function(id, initialFileName,
 #' @description Processes and initiates the download of a table, matrix or data
 #'              frame.
 #' @name downloadTableButton
-#' @param input Needed for Shiny
-#' @param output Needed for Shiny
-#' @param session Needed for Shiny
+#' @param input Needed for Shiny.
+#' @param output Needed for Shiny.
+#' @param session Needed for Shiny.
 #' @param dataFrameObject The name of the table, matrix or data frame object
-#'        that is to be exported
+#'        that is to be exported.
 #' @return Downloads the table with the inputted filename
 #' @export
 downloadTableButton <- function(input, output, session, dataFrameObject) {
@@ -109,7 +110,6 @@ downloadTableButton <- function(input, output, session, dataFrameObject) {
 										 "rds" = "saveRDS",
 										 "write.table")
 			do.call(func, a)
-		}#,
-		#contentType = mimeType()
+		}
 	)
 }

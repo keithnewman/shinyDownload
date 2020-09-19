@@ -3,12 +3,13 @@
 #'              ggplot
 #' @name downloadGGPlotButtonUI
 #' @param id A unique id name for this Shiny object
-#' @param initialFileName The default name that will be used for the Filename
+#' @param initialFileName The default name that will be used for the filename
 #'                        of the downloaded file.
-#' @param placeholder Placeholder text for the filename input
-#' @param buttonLabel Text to appear on the download link button
+#' @param placeholder Placeholder text for the filename input. This adds the
+#'                    placeholder attribute to the HTML input tag.
+#' @param buttonLabel Text to appear on the download link button.
 #' @return An inline form for downloading the ggplot, including filename,
-#'         file format and the all-important download button
+#'         file format and the all-important download button.
 #' @export
 downloadGGPlotButtonUI <- function(id, initialFileName = "",
                                    placeholder = "Select filename...",
@@ -77,7 +78,7 @@ downloadGGPlotButtonUI <- function(id, initialFileName = "",
 #' @param input Needed for Shiny
 #' @param output Needed for Shiny
 #' @param session Needed for Shiny
-#' @param ggplotObject The name of the ggplot object that is to be plotted
+#' @param ggplotObject The ggplot object to be outputted for download.
 #' @param height Height of the plot to be outputted
 #' @param width Width of the plot to be outputted
 #' @return Downloads the ggplot with the inputted filename
@@ -125,7 +126,6 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
       while (openDevices > 1) {
         openDevices = grDevices::dev.off()
       }
-    }#,
-    #contentType = mimeType()
+    }
   )
 }
