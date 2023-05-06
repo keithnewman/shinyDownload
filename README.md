@@ -1,5 +1,9 @@
 # shinyDownload
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/keithnewman/shinyDownload/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/keithnewman/shinyDownload/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 *shinyDownload* extends the [shiny](http://shiny.rstudio.com/) package
 to provide widgets that allow ggplots, tables and reports to be
 easily downloaded in a variety of formats.
