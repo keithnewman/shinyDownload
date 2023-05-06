@@ -6,7 +6,8 @@ shinyUI(
 
     sidebarLayout(
       sidebarPanel(
-        withMathJax(p("Pick how many data points to generate, and the parameters for the underlying model, $$y = ax + b$$")),
+        withMathJax(p("Pick how many data points to generate, and the parameters
+                      for the underlying model, $$y = ax + b$$")),
         numericInput("numberOfPoints",
                      "Number of data points:",
                      min = 10, value = 30
@@ -57,9 +58,11 @@ shinyUI(
               content in the panel-body, and the download widget in the
               panel-footer. This groups related items together."),
             p("Visit the",
-              tags$a("Bootstrap 3.3 docs",
-                     href = "https://getbootstrap.com/docs/3.3/components/#panels",
-                     target = "_blank"),
+              tags$a(
+                "Bootstrap 3.3 docs",
+                href = "https://getbootstrap.com/docs/3.3/components/#panels",
+                target = "_blank"
+              ),
               "for more information on Bootstrap panels."),
             p("Be careful not to confuse Bootstrap Panels with panels in Shiny,
               which refers to which side content is to be displayed in the UI!")

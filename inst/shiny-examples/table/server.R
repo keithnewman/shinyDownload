@@ -7,7 +7,7 @@ shinyServer(
       switch(input$dataChoice, "random" = rnorm(1000), get(input$dataChoice))
     })
 
-    output$table <- renderTable({createTable()})
+    output$table <- renderTable(createTable())
 
     # The download manager is packaged into a Shiny module called
     # "downloadTableButton".

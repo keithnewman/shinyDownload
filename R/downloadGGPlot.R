@@ -110,7 +110,7 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
     content = function(file) {
       # Compile a list of arguments to pass to do.call
       a <- list()
-      a$`file` = file
+      a$`file` <- file
       if (!is.null(height)) {
         a$height <- height
       }
@@ -119,12 +119,11 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
       }
 
       # Make the plot
-      openDevices = Inf
+      openDevices <- Inf
       do.call(input$format, args = a)
-      #pdf(file)
       print(ggplotObject)
       while (openDevices > 1) {
-        openDevices = grDevices::dev.off()
+        openDevices <- grDevices::dev.off()
       }
     }
   )

@@ -4,3 +4,4 @@
 
 - Add a NEWS.md file.
 - Add R project files.
+- chore: Lint package.

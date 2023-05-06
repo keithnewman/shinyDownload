@@ -98,11 +98,11 @@ downloadTableButton <- function(input, output, session, dataFrameObject) {
       # Compile a list of arguments to pass to do.call
       a <- list()
       if (input$format == "rds") {
-        a$`object` = dataFrameObject
+        a$`object` <- dataFrameObject
       } else {
-        a$`x` = dataFrameObject
+        a$`x` <- dataFrameObject
       }
-      a$`file` = file
+      a$`file` <- file
 
       # Decide how the table will be written
       func <- switch(input$format,

@@ -7,7 +7,8 @@ shinyUI(
     sidebarLayout(
       # sidebarPanel() is the (grey) panel on the left
       sidebarPanel(
-        withMathJax(p("Pick how many data points to generate, and the parameters for the underlying model, $$y = ax + b$$")),
+        withMathJax(p("Pick how many data points to generate, and the
+                      parameters for the underlying model, $$y = ax + b$$")),
         numericInput("numberOfPoints",
                      "Number of data points:",
                      min = 10, value = 30

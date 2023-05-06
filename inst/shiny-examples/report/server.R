@@ -48,11 +48,11 @@ shinyServer(
       return(p)
     })
 
-    output$scatterPlot1 <- renderPlot({allPlots()[["a"]]})
-    output$scatterPlot2 <- renderPlot({allPlots()[["b"]]})
-    output$scatterPlot3 <- renderPlot({allPlots()[["c"]]})
-    output$scatterPlot4 <- renderPlot({allPlots()[["d"]]})
-    output$scatterPlot5 <- renderPlot({allPlots()[["e"]]})
+    output$scatterPlot1 <- renderPlot(allPlots()[["a"]])
+    output$scatterPlot2 <- renderPlot(allPlots()[["b"]])
+    output$scatterPlot3 <- renderPlot(allPlots()[["c"]])
+    output$scatterPlot4 <- renderPlot(allPlots()[["d"]])
+    output$scatterPlot5 <- renderPlot(allPlots()[["e"]])
 
   }
 )

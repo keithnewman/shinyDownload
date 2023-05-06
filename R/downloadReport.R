@@ -50,7 +50,6 @@ downloadReportButtonUI <- function(id, initialFileName,
           `.pdf` = "pdf",
           `.html` = "HTML",
           `.docx` = "docx",
-          # `.tex` = "tex",
           `.rtf` = "rtf",
           `.odt` = "odt",
           `.md` = "md"
@@ -153,16 +152,17 @@ downloadReportButton <- function(input, output, session,
     }
   })
 
-  formatName <- shiny::reactive ({
+  formatName <- shiny::reactive({
     return(switch(input$format,
                   docx = "word_document",
                   paste0(tolower(input$format), "_document")))
   })
 
   output$download <- shiny::downloadHandler(
-    filename = function() return(paste0(basename(input$filename),
-                                        downloadExtension())),
-    content = function(file_) {
+    filename = function() {
+      return(paste0(basename(input$filename), downloadExtension()))
+    },
+    content = function(file_) { # nolint: object_name_linter
 
       # NOTE: Do not delete the tmpDir object when you are done! This belongs
       # to the entire R session, and deleting it causes other things to break!
@@ -193,12 +193,12 @@ downloadReportButton <- function(input, output, session,
             }
           }
         }
-        yamlHead$output[[formatName()]] = tocList
+        yamlHead$output[[formatName()]] <- tocList
       }
 
       # Override default latex compiler is xelatex is requested.
       if (input$format == "pdf" && shiny::isTruthy(xelatex)) {
-        yamlHead$output[[formatName()]][["latex_engine"]] = "xelatex"
+        yamlHead$output[[formatName()]][["latex_engine"]] <- "xelatex"
       }
 
       # Write YAML to the start of the main document
