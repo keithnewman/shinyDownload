@@ -10,7 +10,7 @@
 #'          \url{https://deanattali.com/2015/04/21/r-package-shiny-app/}
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # For downloading ggplot objects
 #' shinyDownloadExample("ggplot")
 #'
