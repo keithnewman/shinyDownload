@@ -92,17 +92,6 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
     ))
   })
 
-  # Determine the application mime type so file formats are recognised
-  mimeType <- shiny::reactive({
-    return(
-      switch(input$format,
-        pdf = "application/pdf",
-        postscript = "application/ps",
-        paste0("image/", input$format) # default for all other formats
-      )
-    )
-  })
-
   output$download <- shiny::downloadHandler(
     filename = function() return(paste0(input$filename, fileExtension())),
     content = function(file) {
