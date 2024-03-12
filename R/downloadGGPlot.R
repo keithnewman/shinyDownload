@@ -46,13 +46,11 @@ downloadGGPlotButtonUI <- function(id, initialFileName = "",
         id = ns("format"),
         name = ns("format"),
         class = "form-control",
-        shiny:::selectOptions(list(
-          `.pdf` = "pdf",
-          `.ps (postscript)` = "postscript",
-          `.png` = "png",
-          `.bmp` = "bmp",
-          `.jpeg` = "jpeg"
-        ), "pdf"),
+        shiny::tags$option(".pdf", value = "pdf", selected = "selected"),
+        shiny::tags$option(".ps", value = "postscript"),
+        shiny::tags$option(".png", value = "png"),
+        shiny::tags$option(".bmp", value = "bmp"),
+        shiny::tags$option(".jpeg", value = "jpeg"),
         `aria-label` = "File format"
       )
     ),
@@ -92,17 +90,6 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
       "postscript" = ".ps",
       paste0(".", input$format) # Default
     ))
-  })
-
-  # Determine the application mime type so file formats are recognised
-  mimeType <- shiny::reactive({
-    return(
-      switch(input$format,
-        pdf = "application/pdf",
-        postscript = "application/ps",
-        paste0("image/", input$format) # default for all other formats
-      )
-    )
   })
 
   output$download <- shiny::downloadHandler(

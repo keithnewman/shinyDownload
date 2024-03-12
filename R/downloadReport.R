@@ -46,14 +46,12 @@ downloadReportButtonUI <- function(id, initialFileName,
         id = ns("format"),
         name = ns("format"),
         class = "form-control",
-        shiny:::selectOptions(list(
-          `.pdf` = "pdf",
-          `.html` = "HTML",
-          `.docx` = "docx",
-          `.rtf` = "rtf",
-          `.odt` = "odt",
-          `.md` = "md"
-        ), "pdf"),
+        shiny::tags$option(".pdf", value = "pdf", selected = "selected"),
+        shiny::tags$option(".html", value = "HTML"),
+        shiny::tags$option(".docx", value = "docx"),
+        shiny::tags$option(".rtf", value = "rtf"),
+        shiny::tags$option(".odt", value = "odt"),
+        shiny::tags$option(".md", value = "md"),
         `aria-label` = "File format"
       )
     ),
@@ -250,9 +248,6 @@ downloadReportButton <- function(input, output, session,
           # hate myself for resorting to this.
           wd <- setwd(tmpDir)
           fName <- paste0(basename(input$filename), fileExtension())
-          out <- rmarkdown::render(input = tmpReport,
-                                   output_file = fName,
-                                   params = params)
           zip::zip(
             zipfile = file_,
             files = c(fName,

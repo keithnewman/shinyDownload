@@ -10,7 +10,7 @@
 #'          \url{https://deanattali.com/2015/04/21/r-package-shiny-app/}
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # For downloading ggplot objects
 #' shinyDownloadExample("ggplot")
 #'
@@ -32,15 +32,17 @@ shinyDownloadExample <- function(example) {
     paste0(
       "Valid examples are: '",
       paste(validExamples, collapse = "', '"),
-      "'")
+      "'"
+    )
 
   # if an invalid example is given, throw an error
   if (missing(example) || !nzchar(example) ||
-      !example %in% validExamples) {
+        !example %in% validExamples) {
     stop(
       "Please run `runExample()` with a valid example app as an argument.\n",
       validExamplesMsg,
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   # find and launch the app
