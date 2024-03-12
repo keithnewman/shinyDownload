@@ -12,7 +12,8 @@ downloadTableButtonUI(
 )
 }
 \arguments{
-\item{id}{A unique id name for this Shiny object}
+\item{id}{A unique id name for this Shiny object. Should match up with the
+\code{id} value for one \code{\link[=downloadTableButtonServer]{downloadTableButtonServer()}}.}
 
 \item{initialFileName}{The default name that will be used for the Filename
 of the downloaded file.}
@@ -24,9 +25,9 @@ placeholder attribute to the HTML input tag.}
 }
 \value{
 A set of options for downloading the table, including filename,
-        file format and the all-important download button
+file format and the all-important download button
 }
 \description{
 Creates the user interface for a download button to download a
-             data.frame object
+data.frame object
 }

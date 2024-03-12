@@ -17,20 +17,6 @@ function(input, output) {
     )
     names(d) <- letters[seq(length.out = input$numberOfModels)]
 
-    # The download manager is packaged into a Shiny module called
-    # "downloadReportButton".
-    output$regressionReport <- callModule(
-      module = downloadReportButton,
-      id = "regressionReport", # <= This should match the outputId name
-      reportTemplateMaster = "report-head.Rmd",
-      reportTemplateImport = "report-body.Rmd",
-      params = list(n = input$numberOfPoints,
-                    a = input$coefa,
-                    intercept = input$intercept,
-                    dataset = d),
-      toc = "float"
-    )
-
     return(d)
   })
 
@@ -53,5 +39,18 @@ function(input, output) {
   output$scatterPlot3 <- renderPlot(allPlots()[["c"]])
   output$scatterPlot4 <- renderPlot(allPlots()[["d"]])
   output$scatterPlot5 <- renderPlot(allPlots()[["e"]])
+  
+  # Download module. Note the allData reactive expression is passed
+  # directly into the module, and not the value (as allData()).
+  downloadReportButtonServer(
+    id = "regressionReport",
+    reportTemplateMaster = "report-head.Rmd",
+    reportTemplateImport = "report-body.Rmd",
+    params = list(n = input$numberOfPoints,
+                  a = input$coefa,
+                  intercept = input$intercept,
+                  dataset = allData),
+    toc = "float"
+  )
 
 }

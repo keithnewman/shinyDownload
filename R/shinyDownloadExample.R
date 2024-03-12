@@ -2,12 +2,11 @@
 #' @description Demonstrate how the package methods work in an example Shiny app
 #' @name shinyDownloadExample
 #' @param example Character string containing the name of one of the example
-#'        Shiny apps. You can choose from "ggplot", "report", "table" or
-#'        "panel".
-#'        The app will open in "showcase" mode, so the app's source code is also
-#'        provided.
+#'   Shiny apps. You can choose from "ggplot", "report", "table" or "panel". The
+#'   app will open in "showcase" mode, so the app's source code is also
+#'   provided.
 #' @details Thanks to Dean Attali for this method which was obtained from
-#'          \url{https://deanattali.com/2015/04/21/r-package-shiny-app/}
+#'   <https://deanattali.com/2015/04/21/r-package-shiny-app/>
 #' @export
 #' @examples
 #' \dontrun{

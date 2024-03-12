@@ -1,4 +1,5 @@
 linters: linters_with_defaults(
     object_name_linter("camelCase"),
+    trailing_whitespace_linter = NULL,
     cyclocomp_linter = NULL
   )

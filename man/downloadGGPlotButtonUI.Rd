@@ -12,10 +12,11 @@ downloadGGPlotButtonUI(
 )
 }
 \arguments{
-\item{id}{A unique id name for this Shiny object}
+\item{id}{A unique id name for this Shiny object. Should match up with 1
+instance of \code{\link[=downloadGGPlotButtonServer]{downloadGGPlotButtonServer()}}.}
 
-\item{initialFileName}{The default name that will be used for the filename
-of the downloaded file.}
+\item{initialFileName}{The default name that will be used for the filename of
+the downloaded file.}
 
 \item{placeholder}{Placeholder text for the filename input. This adds the
 placeholder attribute to the HTML input tag.}
@@ -23,10 +24,10 @@ placeholder attribute to the HTML input tag.}
 \item{buttonLabel}{Text to appear on the download link button.}
 }
 \value{
-An inline form for downloading the ggplot, including filename,
-        file format and the all-important download button.
+An inline form for downloading the ggplot, including filename, file
+format and the all-important download button.
 }
 \description{
 Creates the user interface for a download button to download a
-             ggplot
+ggplot
 }
