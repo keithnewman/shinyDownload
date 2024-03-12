@@ -15,6 +15,7 @@ function(input, output) {
     output$tableDownload <- callModule(
       module = downloadTableButton,
       id = "tableDownload", # <= this should match the outputId name
-      dataFrameObject = createTable())
+      dataFrameObject = createTable()
+    )
   })
 }

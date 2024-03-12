@@ -12,16 +12,13 @@ fluidPage(
                   min = 1, max = 5, value = 3),
       numericInput("numberOfPoints",
                    "Number of data points:",
-                   min = 10, value = 30
-      ),
+                   min = 10, value = 30),
       sliderInput("coefa",
                   "a (the coefficient of x):",
-                  min = -10, max = 10, value = 0, step = 0.1
-      ),
+                  min = -10, max = 10, value = 0, step = 0.1),
       sliderInput("intercept",
                   "b (intercept):",
-                  min = -100, max = 100, value = 0
-      ),
+                  min = -100, max = 100, value = 0),
       checkboxInput("regLine", "Include regression line", TRUE)
     ),
     mainPanel(
