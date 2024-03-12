@@ -46,13 +46,11 @@ downloadTableButtonUI <- function(id, initialFileName,
         id = ns("format"),
         name = ns("format"),
         class = "form-control",
-        shiny:::selectOptions(list(
-          `.csv` = "csv",
-          `.csv (for excel)` = "excel_csv",
-          `.txt (space-delimited)` = "delim",
-          `.txt (tab-delimited)` = "tsv",
-          `.rds (for R)` = "rds"
-        ), "csv"),
+        shiny::tags$option(".csv", value = "csv", selected = "selected"),
+        shiny::tags$option(".csv (for excel)", value = "excel_csv"),
+        shiny::tags$option(".txt (space-delimited)", value = "delim"),
+        shiny::tags$option(".txt (tab-delimited)", value = "tsv"),
+        shiny::tags$option(".rds (for R)", value = "rds"),
         `aria-label` = "File format"
       )
     ),
@@ -98,11 +96,11 @@ downloadTableButton <- function(input, output, session, dataFrameObject) {
       # Compile a list of arguments to pass to do.call
       a <- list()
       if (input$format == "rds") {
-        a$`object` = dataFrameObject
+        a$`object` <- dataFrameObject
       } else {
-        a$`x` = dataFrameObject
+        a$`x` <- dataFrameObject
       }
-      a$`file` = file
+      a$`file` <- file
 
       # Decide how the table will be written
       func <- switch(input$format,

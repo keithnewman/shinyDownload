@@ -46,13 +46,11 @@ downloadGGPlotButtonUI <- function(id, initialFileName = "",
         id = ns("format"),
         name = ns("format"),
         class = "form-control",
-        shiny:::selectOptions(list(
-          `.pdf` = "pdf",
-          `.ps (postscript)` = "postscript",
-          `.png` = "png",
-          `.bmp` = "bmp",
-          `.jpeg` = "jpeg"
-        ), "pdf"),
+        shiny::tags$option(".pdf", value = "pdf", selected = "selected"),
+        shiny::tags$option(".ps", value = "postscript"),
+        shiny::tags$option(".png", value = "png"),
+        shiny::tags$option(".bmp", value = "bmp"),
+        shiny::tags$option(".jpeg", value = "jpeg"),
         `aria-label` = "File format"
       )
     ),
@@ -94,23 +92,12 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
     ))
   })
 
-  # Determine the application mime type so file formats are recognised
-  mimeType <- shiny::reactive({
-    return(
-      switch(input$format,
-        pdf = "application/pdf",
-        postscript = "application/ps",
-        paste0("image/", input$format) # default for all other formats
-      )
-    )
-  })
-
   output$download <- shiny::downloadHandler(
     filename = function() return(paste0(input$filename, fileExtension())),
     content = function(file) {
       # Compile a list of arguments to pass to do.call
       a <- list()
-      a$`file` = file
+      a$`file` <- file
       if (!is.null(height)) {
         a$height <- height
       }
@@ -119,12 +106,11 @@ downloadGGPlotButton <- function(input, output, session, ggplotObject,
       }
 
       # Make the plot
-      openDevices = Inf
+      openDevices <- Inf
       do.call(input$format, args = a)
-      #pdf(file)
       print(ggplotObject)
       while (openDevices > 1) {
-        openDevices = grDevices::dev.off()
+        openDevices <- grDevices::dev.off()
       }
     }
   )

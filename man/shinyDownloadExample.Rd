@@ -21,7 +21,7 @@ Thanks to Dean Attali for this method which was obtained from
          \url{https://deanattali.com/2015/04/21/r-package-shiny-app/}
 }
 \examples{
-\donttest{
+\dontrun{
 # For downloading ggplot objects
 shinyDownloadExample("ggplot")
 

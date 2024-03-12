@@ -46,15 +46,12 @@ downloadReportButtonUI <- function(id, initialFileName,
         id = ns("format"),
         name = ns("format"),
         class = "form-control",
-        shiny:::selectOptions(list(
-          `.pdf` = "pdf",
-          `.html` = "HTML",
-          `.docx` = "docx",
-          # `.tex` = "tex",
-          `.rtf` = "rtf",
-          `.odt` = "odt",
-          `.md` = "md"
-        ), "pdf"),
+        shiny::tags$option(".pdf", value = "pdf", selected = "selected"),
+        shiny::tags$option(".html", value = "HTML"),
+        shiny::tags$option(".docx", value = "docx"),
+        shiny::tags$option(".rtf", value = "rtf"),
+        shiny::tags$option(".odt", value = "odt"),
+        shiny::tags$option(".md", value = "md"),
         `aria-label` = "File format"
       )
     ),
@@ -153,16 +150,17 @@ downloadReportButton <- function(input, output, session,
     }
   })
 
-  formatName <- shiny::reactive ({
+  formatName <- shiny::reactive({
     return(switch(input$format,
                   docx = "word_document",
                   paste0(tolower(input$format), "_document")))
   })
 
   output$download <- shiny::downloadHandler(
-    filename = function() return(paste0(basename(input$filename),
-                                        downloadExtension())),
-    content = function(file_) {
+    filename = function() {
+      return(paste0(basename(input$filename), downloadExtension()))
+    },
+    content = function(file_) { # nolint: object_name_linter
 
       # NOTE: Do not delete the tmpDir object when you are done! This belongs
       # to the entire R session, and deleting it causes other things to break!
@@ -193,12 +191,12 @@ downloadReportButton <- function(input, output, session,
             }
           }
         }
-        yamlHead$output[[formatName()]] = tocList
+        yamlHead$output[[formatName()]] <- tocList
       }
 
       # Override default latex compiler is xelatex is requested.
       if (input$format == "pdf" && shiny::isTruthy(xelatex)) {
-        yamlHead$output[[formatName()]][["latex_engine"]] = "xelatex"
+        yamlHead$output[[formatName()]][["latex_engine"]] <- "xelatex"
       }
 
       # Write YAML to the start of the main document
@@ -250,9 +248,6 @@ downloadReportButton <- function(input, output, session,
           # hate myself for resorting to this.
           wd <- setwd(tmpDir)
           fName <- paste0(basename(input$filename), fileExtension())
-          out <- rmarkdown::render(input = tmpReport,
-                                   output_file = fName,
-                                   params = params)
           zip::zip(
             zipfile = file_,
             files = c(fName,

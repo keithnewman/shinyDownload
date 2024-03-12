@@ -8,17 +8,17 @@ and each model has `r params$n` randomly generated observations.
 
 
 ```{r numberOfModels, echo=FALSE}
-J <- length(params$dataset)
+j <- length(params$dataset)
 ```
 
 ## Individual models
 
-We have created `r J` model`r if (J > 1) {"s"}`.
+We have created `r j` model`r if (j > 1) {"s"}`.
 
 ```{r runall, include=FALSE}
 out <- NULL
 for (i in names(params$dataset)) {
-  out <- append(out, knitr::knit_child('report-body.Rmd'))
+  out <- append(out, knitr::knit_child("report-body.Rmd"))
 }
 ```
 
