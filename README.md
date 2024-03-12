@@ -66,33 +66,31 @@ We're using the name `shinyID` in this example as the module's ID
 You can customise the name of this as long as it matches across the UI and
 server.
 
-On the server end, every time the downloadable plot changes, you should recall
-the module that prepares the file for download.
-So in the case of a ggplot, you could do this in the same block of code that
-renders your ggplot for output to the UI:
+On the server end, if we're planning to display content and offer it for
+download, consider making that content once as a reactive expression,
+and reuse it where needed.
+We can pass this reactive expression into the server part of the download
+module.
 
 ```r
-output$myPlot <- renderPlot({
-  # Prepare your plot as normal
-  g <- ggplot(mtcars, aes(x = disp, y = mpg)) + geom_point()
-
-  # Call the module to provide it with the newest plot
-  output$shinyID <- callModule(
-    module = downloadGGPlotButton,
-    id = "shinyID", # <= this should match the outputId name
-    ggplotObject = g
-  )
-
-  return(g)
+# Prepare your plot as a reactive expression
+cars_plot <- reactive({
+  ggplot(mtcars, aes(x = disp, y = mpg)) + geom_point()
 })
-```
 
-Note that `callModule` will only update with the latest plot if the plot itself
-updates. For that reason, you should make sure the download widget and its
-corresponding plot are visible at the same time.
-If the plot is hidden on a `tabPanel` that isn't visible, the default reactive
-behaviour is that the plot won't update, and therefore the download module won't
-update either.
+# You can plot using the reactive *value* as needed
+output$myPlot <- renderPlot({
+  cars_plot()
+})
+
+# Call the server component of the module. Give the plot as the
+# reactive *expression*
+downloadGGPlotButtonServer(
+  id = "shinyID", # <= this should match the ID used in the UI module
+  ggplotObject = cars_plot # No parentheses here to pass *expression*
+)
+
+```
 
 ## Styling ideas
 

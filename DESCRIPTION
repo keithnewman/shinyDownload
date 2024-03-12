@@ -1,7 +1,7 @@
 Package: shinyDownload
 Title: Shiny module that allows tables, plots and reports to be downloaded
     in Shiny
-Version: 0.3.8
+Version: 0.4.0
 Authors@R: 
     person("Keith", "Newman", , "knewma@hotmail.com", role = c("aut", "cre"))
 Description: Shiny module designed to allow plots and data frames to be
@@ -11,9 +11,11 @@ License: GPL-3 + file LICENSE
 Depends: 
     R (>= 3.0.1)
 Imports:
+    cli,
     jsonlite,
+    lifecycle,
     rmarkdown,
-    shiny (>= 0.10),
+    shiny (>= 1.5.0),
     yaml,
     zip
 Suggests:
@@ -21,6 +23,7 @@ Suggests:
     knitr
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Collate:
     'downloadGGPlot.R'

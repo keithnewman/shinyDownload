@@ -3,7 +3,7 @@
 ```{r, include=FALSE}
 # For convenience, we'll extract the values from the params list for this
 # section of the report.
-d <- params$dataset[[i]]
+d <- params$dataset()[[i]]
 ```
 
 Here are some summary statistics from this dataset:

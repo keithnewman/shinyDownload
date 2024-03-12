@@ -7,11 +7,7 @@
 downloadTableButton(input, output, session, dataFrameObject)
 }
 \arguments{
-\item{input}{Needed for Shiny.}
-
-\item{output}{Needed for Shiny.}
-
-\item{session}{Needed for Shiny.}
+\item{input, output, session}{Needed for Shiny.}
 
 \item{dataFrameObject}{The name of the table, matrix or data frame object
 that is to be exported.}
@@ -20,6 +16,8 @@ that is to be exported.}
 Downloads the table with the inputted filename
 }
 \description{
-Processes and initiates the download of a table, matrix or data
-             frame.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=downloadTableButtonServer]{downloadTableButtonServer()}} instead.
+
+Processes and initiates the download of a table, matrix or data frame.
 }

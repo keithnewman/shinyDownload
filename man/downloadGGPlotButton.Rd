@@ -14,21 +14,19 @@ downloadGGPlotButton(
 )
 }
 \arguments{
-\item{input}{Needed for Shiny}
+\item{input, output, session}{Needed for Shiny}
 
-\item{output}{Needed for Shiny}
+\item{ggplotObject}{Reactive expression containing the ggplot object to be
+outputted for download.}
 
-\item{session}{Needed for Shiny}
-
-\item{ggplotObject}{The ggplot object to be outputted for download.}
-
-\item{height}{Height of the plot to be outputted}
-
-\item{width}{Width of the plot to be outputted}
+\item{height, width}{Height and width of the plot to be outputted}
 }
 \value{
 Downloads the ggplot with the inputted filename
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Please use
+\code{\link[=downloadGGPlotButtonServer]{downloadGGPlotButtonServer()}} instead.
+
 Processes and initiates the download of a ggplot object.
 }
