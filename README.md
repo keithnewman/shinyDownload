@@ -2,6 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/keithnewman/shinyDownload/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/keithnewman/shinyDownload/actions/workflows/R-CMD-check.yaml)
+[![lint](https://github.com/keithnewman/shinyDownload/actions/workflows/lint.yaml/badge.svg)](https://github.com/keithnewman/shinyDownload/actions/workflows/lint.yaml)
 <!-- badges: end -->
 
 *shinyDownload* extends the [shiny](http://shiny.rstudio.com/) package
