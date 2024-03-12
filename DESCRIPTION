@@ -13,7 +13,7 @@ Depends:
 Imports:
     jsonlite,
     rmarkdown,
-    shiny,
+    shiny (>= 0.10),
     yaml,
     zip
 Suggests:
